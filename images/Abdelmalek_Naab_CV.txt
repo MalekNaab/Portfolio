@@ -1,0 +1,97 @@
+Abdelmalek Naab
+
+London, England
++447402223431
+Maleknaab@gmail.com
+
+Summary
+
+First-Class Computer Science graduate and Full-Stack Web Developer with a competitive background in Brazilian Jiu-Jitsu and MMA, bringing strong discipline, resilience and problem-solving skills into professional environments. Experienced in building responsive, secure and user-focused web applications using JavaScript, React, Vue.js, Node.js, PHP, SQL and modern database technologies. Skilled in frontend development, backend APIs, database-driven systems, application testing and delivering solutions based on client requirements. Also experienced in data science, with knowledge of Python, machine learning and analytics, alongside strong communication, teamwork and leadership skills.
+
+Experience
+
+August 2025 - Current
+
+DA IT Solutions Limited
+Full Stack Web Developer
+
+Work across frontend and backend technologies including JavaScript, Vue.js, Node.js, and MongoDB
+Built user-focused interfaces while integrating APIs and database systems to streamline functionality
+Developed and maintained responsive websites and web applications that enhanced client engagement
+Collaborated with clients to deliver tailored digital solutions, enhancing overall user experience
+
+June 2025 - Current
+
+Fiverr & Upwork
+Freelance Full Stack Developer
+
+Built responsive frontend interfaces and backend functionality using modern web technologies
+Designed and developed modern websites and web applications for freelance clients
+Developed UI/UX designs and customised solutions based on client specifications
+Facilitated client communication, defined project requirements, and coordinated delivery timelines
+
+September 2024 - Current
+
+Apex Jiu Jitsu
+Brazilian Jiu-Jitsu Coach
+
+Coached students in technical Brazilian Jiu-Jitsu training and prepared them for competitions
+Organised training sessions and provided support for competitive athletes
+Supported athlete development through structured training programmes and mentorship
+Demonstrate leadership, communication, and teamwork in high-performance environments
+
+February 2020 - June 2020
+
+Local Village Network (LVN)
+Application Tester
+
+Tested application functionality and user experience to ensure quality across multiple features
+Identified bugs and usability issues to enhance overall performance
+Collaborated with developers to enhance application stability and functionality
+Conducted quality assurance checks to verify application performance
+
+Hobbies and interests
+
+Technology & Software Development
+Artificial Intelligence & Data Science
+MMA & Brazilian Jiu-Jitsu Competition
+Football & Running
+Gaming & Game Development
+Digital Art & Creative Design
+
+Accomplishments and awards
+
+First Class BSc (Hons) Computer Science Graduate
+MSc Data Science Student
+European Brazilian Jiu-Jitsu Champion
+Multiple-Time UK National Champion
+National & International MMA & BJJ Competitor
+Full Stack Developer with experience in AI, Data Science, and Unity VR Development
+
+Skills
+
+Programming Languages: JavaScript, Python, C#, Java, SQL
+Web Development: HTML5, CSS3, Frontend & Backend Development, REST API Development
+Frameworks & Libraries: React.js, Vue.js, Node.js, Express.js
+Databases & Data Management: MongoDB, MySQL, Database Design, Data Modelling
+API Integration
+UX/UI & Responsive Design: Mobile-First Development, Responsive Design, User-Centred Design, User Interface Design, User Experience Design
+Software Engineering: Object-Oriented Programming (OOP), Agile Methodologies, Problem Solving, Cross-Platform Development, Quality Assurance & Testing
+
+Development Tools: Git, GitHub, Visual Studio, Visual Studio Code, Figma
+Data Science & Analytics: Data Analytics, Data Visualisation, Data Cleaning & Preprocessing, Exploratory Data Analysis (EDA), Statistical Analysis
+Visualisation & Analysis Tools: Matplotlib, Pandas, NumPy, Google Colab
+Machine Learning: Predictive Modelling, Regression Analysis, Classification Techniques, Gaussian Mixture Models (GMM), Expectation-Maximisation (EM), Machine Learning Fundamentals
+Game Development: Unity Engine, C# Game Development, Virtual Reality (VR) Development, Oculus Integration
+
+Education
+
+January 2025 - Current
+Middlesex University London
+Master of Science Data Science
+
+January 2021 - January 2023
+Middlesex University City of london
+Bachelor of Science Computer Science
+First Class Honours
+Focused on software engineering, full-stack development, UX/UI, data science and machine learning. Developed projects using JavaScript, React/Vue, Node.js, MongoDB, Python, C#, Unity and Figma.
