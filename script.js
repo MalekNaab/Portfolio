@@ -1,1336 +1,195 @@
-﻿"use strict";
-
-
-/* =========================================================
-   ELEMENTS
-========================================================= */
-
-const bootScreen =
-    document.getElementById("boot-screen");
-
-const bootLogo =
-    document.getElementById("boot-logo");
-
-const bootMessage =
-    document.getElementById("boot-message");
-
-const bootParticles =
-    document.getElementById("boot-particles");
-
-const ambientParticles =
-    document.getElementById("ambient-particles");
-
-const mainOS =
-    document.getElementById("main-os");
-
-const navButtons =
-    document.querySelectorAll(".nav-btn");
-
-const pages =
-    document.querySelectorAll(".page");
-
-const clock =
-    document.getElementById("clock");
-
-const returnBootButton =
-    document.getElementById("return-boot");
-
-const filterButtons =
-    document.querySelectorAll(".filter-btn");
-
-const projectCards =
-    document.querySelectorAll(".project-card");
-
-const openPageButtons =
-    document.querySelectorAll("[data-open-page]");
-
-const contactForm =
-    document.getElementById("contact-form");
-
-const formStatus =
-    document.getElementById("form-status");
-
-
-let hasBooted =
-    false;
-
-
-let currentPageIndex =
-    0;
-
-
-
-/* =========================================================
-   PARTICLES
-========================================================= */
-
-function createBootParticles() {
-
-    if (!bootParticles) {
-        return;
-    }
-
-
-    for (
-        let i = 0;
-        i < 70;
-        i++
-    ) {
-
-        const particle =
-            document.createElement("span");
-
-
-        particle.classList.add(
-            "boot-particle"
-        );
-
-
-        const size =
-            Math.random() * 3 + 1;
-
-
-        particle.style.width =
-            `${size}px`;
-
-
-        particle.style.height =
-            `${size}px`;
-
-
-        particle.style.left =
-            `${Math.random() * 100}%`;
-
-
-        particle.style.top =
-            `${Math.random() * 100}%`;
-
-
-        particle.style.animationDuration =
-            `${Math.random() * 10 + 7}s`;
-
-
-        particle.style.animationDelay =
-            `${Math.random() * -15}s`;
-
-
-        bootParticles.appendChild(
-            particle
-        );
-
-    }
-
-}
-
-
-
-function createAmbientParticles() {
-
-    if (!ambientParticles) {
-        return;
-    }
-
-
-    for (
-        let i = 0;
-        i < 35;
-        i++
-    ) {
-
-        const particle =
-            document.createElement("span");
-
-
-        particle.classList.add(
-            "ambient-particle"
-        );
-
-
-        particle.style.left =
-            `${Math.random() * 100}%`;
-
-
-        particle.style.top =
-            `${Math.random() * 100}%`;
-
-
-        particle.style.animationDuration =
-            `${Math.random() * 15 + 12}s`;
-
-
-        particle.style.animationDelay =
-            `${Math.random() * -20}s`;
-
-
-        ambientParticles.appendChild(
-            particle
-        );
-
-    }
-
-}
-
-
-
-/* =========================================================
-   BOOT
-========================================================= */
-
-function bootSystem() {
-
-    if (hasBooted) {
-        return;
-    }
-
-
-    hasBooted =
-        true;
-
-
-    if (bootScreen) {
-
-        bootScreen.style.opacity =
-            "0";
-
-
-        bootScreen.style.transition =
-            "opacity 0.5s ease";
-
-    }
-
-
-    setTimeout(
-        function () {
-
-            if (bootScreen) {
-
-                bootScreen.classList.add(
-                    "hidden"
-                );
-
-            }
-
-
-            if (mainOS) {
-
-                mainOS.classList.remove(
-                    "hidden"
-                );
-
-            }
-
-
-            openPage(
-                "home"
-            );
-
-        },
-        500
-    );
-
-}
-
-
-
-if (bootLogo) {
-
-    bootLogo.addEventListener(
-        "click",
-        function (event) {
-
-            event.stopPropagation();
-
-            bootSystem();
-
-        }
-    );
-
-}
-
-
-
-if (bootScreen) {
-
-    bootScreen.addEventListener(
-        "click",
-        bootSystem
-    );
-
-}
-
-
-
-/* =========================================================
-   PAGE NAVIGATION
-========================================================= */
-
-function openPage(pageID) {
-
-    const targetPage =
-        document.getElementById(
-            pageID
-        );
-
-
-    if (!targetPage) {
-        return;
-    }
-
-
-    pages.forEach(
-        function (page) {
-
-            page.classList.remove(
-                "active-page"
-            );
-
-        }
-    );
-
-
-    targetPage.classList.add(
-        "active-page"
-    );
-
-
-    navButtons.forEach(
-        function (
-            button,
-            index
-        ) {
-
-            const active =
-                button.dataset.page ===
-                pageID;
-
-
-            button.classList.toggle(
-                "active",
-                active
-            );
-
-
-            if (active) {
-
-                currentPageIndex =
-                    index;
-
-            }
-
-        }
-    );
-
-
-    window.scrollTo({
-        top: 0,
-        behavior: "smooth"
+"use strict";
+
+const bootScreen = document.getElementById("boot-screen");
+const mainOS = document.getElementById("main-os");
+const pages = Array.from(document.querySelectorAll(".page"));
+const navButtons = Array.from(document.querySelectorAll(".nav-btn"));
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let currentPage = "home";
+
+function openPage(pageID, { updateHistory = true, moveFocus = true } = {}) {
+    const target = pages.find(page => page.id === pageID);
+    if (!target) return;
+    currentPage = pageID;
+    pages.forEach(page => page.classList.toggle("active-page", page === target));
+    navButtons.forEach(button => {
+        const active = button.dataset.page === pageID;
+        button.classList.toggle("active", active);
+        if (active) button.setAttribute("aria-current", "page");
+        else button.removeAttribute("aria-current");
     });
-
+    if (updateHistory && window.location.hash !== `#${pageID}`) {
+        history.pushState(null, "", `#${pageID}`);
+    }
+    window.scrollTo({ top: 0, behavior: "instant" });
+    if (moveFocus) {
+        const heading = target.querySelector("h1");
+        if (heading) {
+            heading.tabIndex = -1;
+            heading.focus({ preventScroll: true });
+        }
+    }
 }
 
-
-
-/* =========================================================
-   NAV BUTTONS
-========================================================= */
-
-navButtons.forEach(
-    function (button) {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                const page =
-                    button.dataset.page;
-
-
-                if (page) {
-
-                    openPage(
-                        page
-                    );
-
-                }
-
-            }
-        );
-
-    }
-);
-
-
-
-openPageButtons.forEach(
-    function (button) {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                const page =
-                    button.dataset.openPage;
-
-
-                if (page) {
-
-                    openPage(
-                        page
-                    );
-
-                }
-
-            }
-        );
-
-    }
-);
-
-
-
-/* =========================================================
-   KEYBOARD
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    function (event) {
-
-
-        if (
-            bootScreen &&
-            !bootScreen.classList.contains(
-                "hidden"
-            )
-        ) {
-
-            bootSystem();
-
-            return;
-
-        }
-
-
-        if (
-            !mainOS ||
-            mainOS.classList.contains(
-                "hidden"
-            )
-        ) {
-
-            return;
-
-        }
-
-
-        const activeElement =
-            document.activeElement;
-
-
-        if (
-            activeElement &&
-            (
-                activeElement.tagName === "INPUT" ||
-                activeElement.tagName === "TEXTAREA"
-            )
-        ) {
-
-            return;
-
-        }
-
-
-        if (
-            event.key ===
-            "ArrowRight"
-        ) {
-
-            event.preventDefault();
-
-
-            currentPageIndex =
-                (
-                    currentPageIndex +
-                    1
-                ) %
-                navButtons.length;
-
-
-            const button =
-                navButtons[
-                    currentPageIndex
-                ];
-
-
-            if (button) {
-
-                openPage(
-                    button.dataset.page
-                );
-
-            }
-
-        }
-
-
-        if (
-            event.key ===
-            "ArrowLeft"
-        ) {
-
-            event.preventDefault();
-
-
-            currentPageIndex =
-                (
-                    currentPageIndex -
-                    1 +
-                    navButtons.length
-                ) %
-                navButtons.length;
-
-
-            const button =
-                navButtons[
-                    currentPageIndex
-                ];
-
-
-            if (button) {
-
-                openPage(
-                    button.dataset.page
-                );
-
-            }
-
-        }
-
-
-        if (
-            event.key ===
-            "Escape"
-        ) {
-
-            event.preventDefault();
-
-            openPage(
-                "home"
-            );
-
-        }
-
-    }
-);
-
-
-
-/* =========================================================
-   PROJECT FILTERS
-========================================================= */
-
-filterButtons.forEach(
-    function (button) {
-
-        button.addEventListener(
-            "click",
-            function () {
-
-                const filter =
-                    button.dataset.filter;
-
-
-                filterButtons.forEach(
-                    function (item) {
-
-                        item.classList.remove(
-                            "active"
-                        );
-
-                    }
-                );
-
-
-                button.classList.add(
-                    "active"
-                );
-
-
-                projectCards.forEach(
-                    function (project) {
-
-                        const category =
-                            project.dataset.category;
-
-
-                        const show =
-                            filter === "all" ||
-                            category === filter;
-
-
-                        project.classList.toggle(
-                            "hide-project",
-                            !show
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-    }
-);
-
-
-
-/* =========================================================
-   TESTIMONIALS
-========================================================= */
-
-const testimonialCards =
-    document.querySelectorAll(
-        ".testimonial-card"
-    );
-
-
-const feedbackPrevious =
-    document.getElementById(
-        "feedback-prev"
-    );
-
-
-const feedbackNext =
-    document.getElementById(
-        "feedback-next"
-    );
-
-
-const feedbackCurrent =
-    document.getElementById(
-        "feedback-current"
-    );
-
-
-const feedbackTotal =
-    document.getElementById(
-        "feedback-total"
-    );
-
-
-let currentFeedback =
-    0;
-
-
-
-if (feedbackTotal) {
-
-    feedbackTotal.textContent =
-        String(
-            testimonialCards.length
-        ).padStart(
-            2,
-            "0"
-        );
-
+navButtons.forEach(button => button.addEventListener("click", () => openPage(button.dataset.page)));
+document.querySelectorAll("[data-open-page]").forEach(button => {
+    button.addEventListener("click", () => openPage(button.dataset.openPage));
+});
+function restorePage() {
+    const id = window.location.hash.slice(1);
+    if (id === "main-content") return;
+    openPage(pages.some(page => page.id === id) ? id : "home", { updateHistory: false, moveFocus: false });
 }
+window.addEventListener("popstate", restorePage);
+window.addEventListener("hashchange", restorePage);
+restorePage();
 
-
-
-function showFeedback(index) {
-
-    if (!testimonialCards.length) {
+// The AN OS intro is optional, so returning visitors can get straight to the work.
+function enterPortfolio() {
+    bootScreen.classList.add("hidden");
+    mainOS.classList.remove("hidden");
+    openPage(currentPage, { updateHistory: false });
+}
+document.getElementById("boot-logo").addEventListener("click", event => {
+    event.stopPropagation();
+    enterPortfolio();
+});
+bootScreen.addEventListener("click", enterPortfolio);
+document.getElementById("return-boot").addEventListener("click", () => {
+    mainOS.classList.add("hidden");
+    bootScreen.classList.remove("hidden");
+    document.getElementById("boot-logo").focus();
+    window.scrollTo({ top: 0, behavior: "instant" });
+});
+document.addEventListener("keydown", event => {
+    if (!bootScreen.classList.contains("hidden")) {
+        if (["Enter", " ", "Escape"].includes(event.key)) {
+            event.preventDefault();
+            enterPortfolio();
+        }
         return;
     }
-
-
-    if (index < 0) {
-
-        index =
-            testimonialCards.length - 1;
-
+    // Arrow navigation belongs to the navigation bar, not forms or project controls.
+    const index = navButtons.indexOf(document.activeElement);
+    if (index !== -1 && ["ArrowRight", "ArrowLeft"].includes(event.key)) {
+        event.preventDefault();
+        const direction = event.key === "ArrowRight" ? 1 : -1;
+        const next = navButtons[(index + direction + navButtons.length) % navButtons.length];
+        openPage(next.dataset.page, { moveFocus: false });
+        next.focus();
     }
+});
 
-
-    if (
-        index >=
-        testimonialCards.length
-    ) {
-
-        index =
-            0;
-
+function createParticles(id, count, className) {
+    const container = document.getElementById(id);
+    if (!container || reducedMotion) return;
+    const fragment = document.createDocumentFragment();
+    for (let i = 0; i < count; i++) {
+        const particle = document.createElement("span");
+        particle.className = className;
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.top = `${Math.random() * 100}%`;
+        particle.style.animationDuration = `${Math.random() * 15 + 12}s`;
+        particle.style.animationDelay = `${Math.random() * -20}s`;
+        fragment.appendChild(particle);
     }
-
-
-    currentFeedback =
-        index;
-
-
-    testimonialCards.forEach(
-        function (
-            card,
-            cardIndex
-        ) {
-
-            card.classList.toggle(
-                "active",
-                cardIndex ===
-                currentFeedback
-            );
-
-        }
-    );
-
-
-    if (feedbackCurrent) {
-
-        feedbackCurrent.textContent =
-            String(
-                currentFeedback + 1
-            ).padStart(
-                2,
-                "0"
-            );
-
-    }
-
+    container.appendChild(fragment);
 }
+createParticles("boot-particles", 35, "boot-particle");
+createParticles("ambient-particles", 20, "ambient-particle");
 
+const filters = document.querySelectorAll(".filter-btn");
+const projects = document.querySelectorAll(".project-card");
+filters.forEach(button => {
+    button.setAttribute("aria-pressed", String(button.classList.contains("active")));
+    button.addEventListener("click", () => {
+        filters.forEach(item => {
+            item.classList.toggle("active", item === button);
+            item.setAttribute("aria-pressed", String(item === button));
+        });
+        projects.forEach(project => {
+            const show = button.dataset.filter === "all" || project.dataset.category === button.dataset.filter;
+            project.classList.toggle("hide-project", !show);
+        });
+    });
+});
 
-
-if (feedbackPrevious) {
-
-    feedbackPrevious.addEventListener(
-        "click",
-        function () {
-
-            showFeedback(
-                currentFeedback - 1
-            );
-
-        }
-    );
-
+function setUpSlider(selector, previousID, nextID, counterID, totalID) {
+    const items = Array.from(document.querySelectorAll(selector));
+    if (!items.length) return;
+    let index = 0;
+    const counter = document.getElementById(counterID);
+    const total = totalID && document.getElementById(totalID);
+    if (total) total.textContent = String(items.length).padStart(2, "0");
+    function show(nextIndex) {
+        index = (nextIndex + items.length) % items.length;
+        items.forEach((item, i) => {
+            item.classList.toggle("active", i === index);
+            item.setAttribute("aria-hidden", String(i !== index));
+        });
+        if (counter) counter.textContent = String(index + 1).padStart(2, "0");
+    }
+    document.getElementById(previousID)?.addEventListener("click", () => show(index - 1));
+    document.getElementById(nextID)?.addEventListener("click", () => show(index + 1));
+    show(0);
 }
+setUpSlider(".testimonial-card", "feedback-prev", "feedback-next", "feedback-current", "feedback-total");
+setUpSlider(".mma-slide", "mma-prev", "mma-next", "mma-current");
 
-
-
-if (feedbackNext) {
-
-    feedbackNext.addEventListener(
-        "click",
-        function () {
-
-            showFeedback(
-                currentFeedback + 1
-            );
-
-        }
-    );
-
+function setUpAccordions(prefix, label) {
+    const items = Array.from(document.querySelectorAll(`.${prefix}-dropdown`));
+    items.forEach((item, index) => {
+        const button = item.querySelector(`.${prefix}-header`);
+        const panel = item.querySelector(`.${prefix}-details`);
+        if (!button || !panel) return;
+        panel.id = `${prefix}-panel-${index}`;
+        button.setAttribute("aria-controls", panel.id);
+        panel.setAttribute("aria-hidden", "true");
+        button.addEventListener("click", () => {
+            const opening = !item.classList.contains("open");
+            items.forEach(other => {
+                const active = opening && other === item;
+                other.classList.toggle("open", active);
+                other.querySelector(`.${prefix}-header`).setAttribute("aria-expanded", String(active));
+                other.querySelector(`.${prefix}-details`).setAttribute("aria-hidden", String(!active));
+                const text = other.querySelector(`.${prefix}-toggle span`);
+                if (text) text.textContent = `${active ? "CLOSE" : "VIEW"} ${label}`;
+            });
+        });
+    });
 }
-
-
-
-showFeedback(
-    0
-);
-
-
-
-/* =========================================================
-   MMA
-========================================================= */
-
-const mmaSlides =
-    document.querySelectorAll(
-        ".mma-slide"
-    );
-
-
-const mmaPrevious =
-    document.getElementById(
-        "mma-prev"
-    );
-
-
-const mmaNext =
-    document.getElementById(
-        "mma-next"
-    );
-
-
-const mmaCurrent =
-    document.getElementById(
-        "mma-current"
-    );
-
-
-let currentMMASlide =
-    0;
-
-
-
-function showMMASlide(index) {
-
-    if (!mmaSlides.length) {
-        return;
-    }
-
-
-    if (index < 0) {
-
-        index =
-            mmaSlides.length - 1;
-
-    }
-
-
-    if (
-        index >=
-        mmaSlides.length
-    ) {
-
-        index =
-            0;
-
-    }
-
-
-    currentMMASlide =
-        index;
-
-
-    mmaSlides.forEach(
-        function (
-            slide,
-            slideIndex
-        ) {
-
-            slide.classList.toggle(
-                "active",
-                slideIndex ===
-                currentMMASlide
-            );
-
-        }
-    );
-
-
-    if (mmaCurrent) {
-
-        mmaCurrent.textContent =
-            String(
-                currentMMASlide + 1
-            ).padStart(
-                2,
-                "0"
-            );
-
-    }
-
-}
-
-
-
-if (mmaPrevious) {
-
-    mmaPrevious.addEventListener(
-        "click",
-        function () {
-
-            showMMASlide(
-                currentMMASlide - 1
-            );
-
-        }
-    );
-
-}
-
-
-
-if (mmaNext) {
-
-    mmaNext.addEventListener(
-        "click",
-        function () {
-
-            showMMASlide(
-                currentMMASlide + 1
-            );
-
-        }
-    );
-
-}
-
-
-
-showMMASlide(
-    0
-);
-
-
-
-/* =========================================================
-   EXPERIENCE DROPDOWNS
-========================================================= */
-
-const experienceDropdowns =
-    document.querySelectorAll(
-        ".experience-dropdown"
-    );
-
-
-experienceDropdowns.forEach(
-    function (dropdown) {
-
-        const header =
-            dropdown.querySelector(
-                ".experience-header"
-            );
-
-
-        const toggleText =
-            dropdown.querySelector(
-                ".experience-toggle span"
-            );
-
-
-        if (!header) {
-            return;
-        }
-
-
-        header.addEventListener(
-            "click",
-            function () {
-
-                const isOpen =
-                    dropdown.classList.contains(
-                        "open"
-                    );
-
-
-                experienceDropdowns.forEach(
-                    function (item) {
-
-                        item.classList.remove(
-                            "open"
-                        );
-
-
-                        const itemHeader =
-                            item.querySelector(
-                                ".experience-header"
-                            );
-
-
-                        const itemText =
-                            item.querySelector(
-                                ".experience-toggle span"
-                            );
-
-
-                        if (itemHeader) {
-
-                            itemHeader.setAttribute(
-                                "aria-expanded",
-                                "false"
-                            );
-
-                        }
-
-
-                        if (itemText) {
-
-                            itemText.textContent =
-                                "VIEW DETAILS";
-
-                        }
-
-                    }
-                );
-
-
-                if (!isOpen) {
-
-                    dropdown.classList.add(
-                        "open"
-                    );
-
-
-                    header.setAttribute(
-                        "aria-expanded",
-                        "true"
-                    );
-
-
-                    if (toggleText) {
-
-                        toggleText.textContent =
-                            "CLOSE DETAILS";
-
-                    }
-
-                }
-
-            }
-        );
-
-    }
-);
-
-
-
-/* =========================================================
-   SERVICE DROPDOWNS
-========================================================= */
-
-const serviceDropdowns =
-    document.querySelectorAll(
-        ".service-dropdown"
-    );
-
-
-serviceDropdowns.forEach(
-    function (dropdown) {
-
-        const header =
-            dropdown.querySelector(
-                ".service-header"
-            );
-
-
-        const toggleText =
-            dropdown.querySelector(
-                ".service-toggle span"
-            );
-
-
-        if (!header) {
-            return;
-        }
-
-
-        header.addEventListener(
-            "click",
-            function () {
-
-                const isOpen =
-                    dropdown.classList.contains(
-                        "open"
-                    );
-
-
-                serviceDropdowns.forEach(
-                    function (item) {
-
-                        item.classList.remove(
-                            "open"
-                        );
-
-
-                        const itemHeader =
-                            item.querySelector(
-                                ".service-header"
-                            );
-
-
-                        const itemText =
-                            item.querySelector(
-                                ".service-toggle span"
-                            );
-
-
-                        if (itemHeader) {
-
-                            itemHeader.setAttribute(
-                                "aria-expanded",
-                                "false"
-                            );
-
-                        }
-
-
-                        if (itemText) {
-
-                            itemText.textContent =
-                                "VIEW SERVICE";
-
-                        }
-
-                    }
-                );
-
-
-                if (!isOpen) {
-
-                    dropdown.classList.add(
-                        "open"
-                    );
-
-
-                    header.setAttribute(
-                        "aria-expanded",
-                        "true"
-                    );
-
-
-                    if (toggleText) {
-
-                        toggleText.textContent =
-                            "CLOSE SERVICE";
-
-                    }
-
-                }
-
-            }
-        );
-
-    }
-);
-
-
-
-/* =========================================================
-   CLOCK
-========================================================= */
+setUpAccordions("service", "SERVICE");
+setUpAccordions("experience", "DETAILS");
 
 function updateClock() {
-
-    if (!clock) {
-        return;
-    }
-
-
-    const now =
-        new Date();
-
-
-    const hours =
-        String(
-            now.getHours()
-        ).padStart(
-            2,
-            "0"
-        );
-
-
-    const minutes =
-        String(
-            now.getMinutes()
-        ).padStart(
-            2,
-            "0"
-        );
-
-
-    clock.textContent =
-        `${hours}:${minutes}`;
-
+    document.getElementById("clock").textContent = new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
 }
-
-
-
 updateClock();
-
-
-setInterval(
-    updateClock,
-    30000
-);
-
-
-
-/* =========================================================
-   CONTACT
-========================================================= */
-
-if (contactForm) {
-
-    contactForm.addEventListener(
-        "submit",
-        async function (event) {
-
-            event.preventDefault();
-
-            const submitButton =
-                contactForm.querySelector(".send-btn");
-
-            if (formStatus) {
-                formStatus.textContent =
-                    "Sending message...";
-            }
-
-            if (submitButton) {
-                submitButton.disabled = true;
-                submitButton.style.opacity = "0.6";
-                submitButton.style.cursor = "not-allowed";
-            }
-
-            try {
-
-                const formData =
-                    new FormData(contactForm);
-
-                const response =
-                    await fetch(
-                        "https://api.web3forms.com/submit",
-                        {
-                            method: "POST",
-                            body: formData
-                        }
-                    );
-
-                const data =
-                    await response.json();
-
-                if (data.success) {
-
-                    if (formStatus) {
-                        formStatus.textContent =
-                            "Message sent successfully.";
-                    }
-
-                    contactForm.reset();
-
-                }
-                else {
-
-                    if (formStatus) {
-                        formStatus.textContent =
-                            "Message could not be sent. Please try again.";
-                    }
-
-                }
-
-            }
-            catch (error) {
-
-                console.error(
-                    "Contact form error:",
-                    error
-                );
-
-                if (formStatus) {
-                    formStatus.textContent =
-                        "Something went wrong. Please try again.";
-                }
-
-            }
-            finally {
-
-                if (submitButton) {
-                    submitButton.disabled = false;
-                    submitButton.style.opacity = "1";
-                    submitButton.style.cursor = "pointer";
-                }
-
-            }
-
-        }
-    );
-
-}
-
-/* =========================================================
-   RETURN TO BOOT
-========================================================= */
-
-if (returnBootButton) {
-
-    returnBootButton.addEventListener(
-        "click",
-        function () {
-
-            if (mainOS) {
-
-                mainOS.classList.add(
-                    "hidden"
-                );
-
-            }
-
-
-            if (bootScreen) {
-
-                bootScreen.classList.remove(
-                    "hidden"
-                );
-
-
-                bootScreen.style.opacity =
-                    "1";
-
-            }
-
-
-            if (bootMessage) {
-
-                bootMessage.textContent =
-                    "Click or press any button to continue";
-
-            }
-
-
-            hasBooted =
-                false;
-
-
-            openPage(
-                "home"
-            );
-
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-
-        }
-    );
-
-}
-
-
-
-/* =========================================================
-   EMPTY LINKS
-========================================================= */
-
-document
-    .querySelectorAll(
-        'a[href="#"]'
-    )
-    .forEach(
-        function (link) {
-
-            link.addEventListener(
-                "click",
-                function (event) {
-
-                    event.preventDefault();
-
-                }
-            );
-
-        }
-    );
-
-
-
-/* =========================================================
-   START
-========================================================= */
-
-createBootParticles();
-
-createAmbientParticles();
-
-openPage(
-    "home"
-);
+setInterval(updateClock, 30000);
+
+// Keep the existing contact form provider and account configuration.
+const contactForm = document.getElementById("contact-form");
+const formStatus = document.getElementById("form-status");
+contactForm?.addEventListener("submit", async event => {
+    event.preventDefault();
+    const submitButton = contactForm.querySelector(".send-btn");
+    if (submitButton.disabled) return;
+    formStatus.textContent = "Sending your enquiry…";
+    submitButton.disabled = true;
+    contactForm.setAttribute("aria-busy", "true");
+    try {
+        const response = await fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            body: new FormData(contactForm)
+        });
+        const data = await response.json();
+        if (!response.ok || !data.success) throw new Error("Message delivery failed");
+        formStatus.textContent = "Thanks — your enquiry has been sent. I’ll get back to you by email.";
+        contactForm.reset();
+    } catch (error) {
+        formStatus.textContent = "Your message could not be sent. Please try again, or email maleknaab@gmail.com directly.";
+    } finally {
+        submitButton.disabled = false;
+        contactForm.removeAttribute("aria-busy");
+    }
+});
