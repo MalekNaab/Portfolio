@@ -6,11 +6,24 @@ const pages = Array.from(document.querySelectorAll(".page"));
 const navButtons = Array.from(document.querySelectorAll(".nav-btn"));
 const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let currentPage = "home";
+window.addEventListener("scroll", () => mainOS.classList.toggle("is-scrolled", window.scrollY > 40), { passive: true });
+
+function alignActiveTile() {
+    const tile = navButtons.find(button => button.dataset.page === currentPage);
+    const rail = tile?.parentElement;
+    if (!rail || rail.scrollWidth <= rail.clientWidth) return;
+    const left = tile.getBoundingClientRect().left - rail.getBoundingClientRect().left + rail.scrollLeft;
+    rail.scrollTo({
+        left: left - (rail.clientWidth - tile.offsetWidth) / 2,
+        behavior: reducedMotion ? "instant" : "smooth"
+    });
+}
 
 function openPage(pageID, { updateHistory = true, moveFocus = true } = {}) {
     const target = pages.find(page => page.id === pageID);
     if (!target) return;
     currentPage = pageID;
+    mainOS.dataset.page = pageID;
     pages.forEach(page => page.classList.toggle("active-page", page === target));
     navButtons.forEach(button => {
         const active = button.dataset.page === pageID;
@@ -18,14 +31,15 @@ function openPage(pageID, { updateHistory = true, moveFocus = true } = {}) {
         if (active) button.setAttribute("aria-current", "page");
         else button.removeAttribute("aria-current");
     });
-    const activeNav = navButtons.find(button => button.dataset.page === pageID);
-    const navigation = activeNav?.parentElement;
-    if (navigation && navigation.scrollWidth > navigation.clientWidth) {
-        navigation.scrollTo({
-            left: activeNav.offsetLeft - navigation.offsetLeft - (navigation.clientWidth - activeNav.offsetWidth) / 2,
-            behavior: reducedMotion ? "instant" : "smooth"
-        });
-    }
+    document.querySelectorAll(".system-tab").forEach(button => {
+        const active = button.dataset.openPage === (pageID === "projects" ? "projects" : "home");
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", String(active));
+    });
+    const sectionIndex = navButtons.findIndex(button => button.dataset.page === pageID);
+    document.getElementById("section-counter").textContent = `${String(sectionIndex + 1).padStart(2, "0")} / ${String(navButtons.length).padStart(2, "0")}`;
+    document.getElementById("section-label").textContent = navButtons[sectionIndex].querySelector(".tile-label").textContent;
+    alignActiveTile();
     if (updateHistory && window.location.hash !== `#${pageID}`) {
         history.pushState(null, "", `#${pageID}`);
     }
@@ -39,7 +53,12 @@ function openPage(pageID, { updateHistory = true, moveFocus = true } = {}) {
     }
 }
 
-navButtons.forEach(button => button.addEventListener("click", () => openPage(button.dataset.page)));
+navButtons.forEach(button => {
+    button.addEventListener("click", () => openPage(button.dataset.page));
+    button.addEventListener("transitionend", event => {
+        if (event.target === button && event.propertyName === "flex-basis" && button.classList.contains("active")) alignActiveTile();
+    });
+});
 document.querySelectorAll("[data-open-page]").forEach(button => {
     button.addEventListener("click", () => openPage(button.dataset.openPage));
 });
@@ -51,6 +70,12 @@ function restorePage() {
 window.addEventListener("popstate", restorePage);
 window.addEventListener("hashchange", restorePage);
 restorePage();
+// Keep the full launcher visible when an external link opens a section directly.
+if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+window.addEventListener("load", () => requestAnimationFrame(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+    alignActiveTile();
+}));
 
 // Restore the console welcome screen; direct section links still open their page.
 function enterPortfolio() {
@@ -91,6 +116,18 @@ document.addEventListener("keydown", event => {
     // arrow keys from links, form controls, accordions or slideshow buttons.
     const focusedIndex = navButtons.indexOf(focused);
     const interactive = focused?.closest("a, button, summary, [role='slider']");
+    if (focusedIndex !== -1 && ["Home", "End"].includes(event.key)) {
+        event.preventDefault();
+        const tile = navButtons[event.key === "Home" ? 0 : navButtons.length - 1];
+        openPage(tile.dataset.page, { moveFocus: false });
+        tile.focus({ preventScroll: true });
+        return;
+    }
+    if (focusedIndex !== -1 && event.key === "ArrowDown") {
+        event.preventDefault();
+        openPage(currentPage);
+        return;
+    }
     if ((focusedIndex !== -1 || !interactive) && ["ArrowRight", "ArrowLeft"].includes(event.key)) {
         event.preventDefault();
         const index = focusedIndex !== -1 ? focusedIndex : navButtons.findIndex(button => button.dataset.page === currentPage);

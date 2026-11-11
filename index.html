@@ -7,8 +7,9 @@
    Abdelmalek Naab | Websites for Small Businesses
   </title>
   <!-- MAIN CSS -->
-  <link href="style.css?v=20261111-dashboard" rel="stylesheet"/>
-  <link href="portfolio-improvements.css?v=20261111-dashboard" rel="stylesheet"/>
+  <link href="style.css?v=20261111-console" rel="stylesheet"/>
+  <link href="portfolio-improvements.css?v=20261111-console" rel="stylesheet"/>
+  <link href="console-dashboard.css?v=20261111-console" rel="stylesheet"/>
   <!-- FONT AWESOME -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet"/>
   <!-- DEVICON -->
@@ -103,29 +104,46 @@
    </div>
    <div class="boot-content">
     <p class="boot-system-name">
-     AN OS
+     A PERSONAL PORTFOLIO EXPERIENCE
     </p>
+    <h1 class="boot-heading">
+     Welcome to AN OS.
+    </h1>
     <button aria-label="Enter AN OS" class="boot-logo" id="boot-logo" type="button">
      <span>
       AN
      </span>
     </button>
+    <p class="boot-profile">
+     Abdelmalek Naab
+    </p>
     <p class="boot-message" id="boot-message">
-     Click, tap or press Enter to continue
+     Press Enter or select your profile to explore
     </p>
     <p class="boot-controls">
-     Mouse • Keyboard • Touch
+     Web development · Data science · MMA
     </p>
    </div>
   </section>
   <!-- =========================================================
      MAIN OS
 ========================================================= -->
-  <div class="main-os" id="main-os">
+  <div class="main-os" data-page="home" id="main-os">
    <a class="skip-link" href="#main-content">
     Skip to content
    </a>
-   <div class="background-glow">
+   <div aria-hidden="true" class="console-backdrop">
+    <div class="scene-light">
+    </div>
+    <div class="scene-orbit orbit-one">
+    </div>
+    <div class="scene-orbit orbit-two">
+    </div>
+    <div class="scene-orbit orbit-three">
+    </div>
+    <div class="scene-mark">
+     AN
+    </div>
    </div>
    <div class="ambient-particles" id="ambient-particles">
    </div>
@@ -133,53 +151,131 @@
          HEADER
     ====================================================== -->
    <header class="topbar">
-    <!-- BRAND -->
-    <div class="brand">
-     <div class="brand-logo">
+    <button aria-label="AN OS home" class="brand brand-button" data-open-page="home" type="button">
+     <span class="brand-logo">
       AN
-     </div>
-     <div>
-      <h2>
-       AN OS
-      </h2>
-      <span>
-       PORTFOLIO SYSTEM
-      </span>
-     </div>
+     </span>
+     <span class="brand-name">
+      AN OS
+      <small>
+       PERSONAL PORTFOLIO
+      </small>
+     </span>
+    </button>
+    <div aria-label="Portfolio views" class="system-tabs">
+     <button class="system-tab active" data-open-page="home" type="button">
+      Explore
+     </button>
+     <button class="system-tab" data-open-page="projects" type="button">
+      Library
+     </button>
     </div>
-    <!-- NAVIGATION -->
-    <nav aria-label="Main navigation" class="main-nav">
-     <button class="nav-btn active" data-page="home" type="button">
-      Home
-     </button>
-     <button class="nav-btn" data-page="projects" type="button">
-      Projects
-     </button>
-     <button class="nav-btn" data-page="clients" type="button">
-      Clients / Services
-     </button>
-     <button class="nav-btn" data-page="skills" type="button">
-      Skills
-     </button>
-     <button class="nav-btn" data-page="mma" type="button">
-      MMA
-     </button>
-     <button class="nav-btn" data-page="experience" type="button">
-      Experience
-     </button>
-     <button class="nav-btn" data-page="contact" type="button">
-      Contact
-     </button>
-    </nav>
-    <!-- CLOCK -->
     <div class="header-right">
-     <div class="online-dot">
-     </div>
+     <span class="availability">
+      <span aria-hidden="true" class="status-dot">
+      </span>
+      Open to freelance work
+     </span>
+     <button aria-label="Contact Abdelmalek" class="utility-button" data-open-page="contact" type="button">
+      <i aria-hidden="true" class="fa-regular fa-envelope">
+      </i>
+     </button>
+     <button aria-label="About Abdelmalek" class="profile-button" data-open-page="experience" type="button">
+      AN
+     </button>
      <span id="clock">
       00:00
      </span>
     </div>
    </header>
+   <div class="dashboard-navigation">
+    <nav aria-label="Main navigation" class="main-nav">
+     <button aria-label="Home" class="nav-btn active" data-page="home" type="button">
+      <span aria-hidden="true" class="tile-art tile-home">
+       <span class="tile-index">
+        01
+       </span>
+       <span class="tile-monogram">
+        AN
+       </span>
+      </span>
+      <span class="tile-label">
+       Home
+      </span>
+     </button>
+     <button aria-label="Projects" class="nav-btn" data-page="projects" type="button">
+      <span aria-hidden="true" class="tile-art tile-projects">
+       <span class="tile-index">
+        02
+       </span>
+       <i aria-hidden="true" class="fa-solid fa-code">
+       </i>
+      </span>
+      <span class="tile-label">
+       Projects
+      </span>
+     </button>
+     <button aria-label="Clients &amp; services" class="nav-btn" data-page="clients" type="button">
+      <span aria-hidden="true" class="tile-art tile-clients">
+       <span class="tile-index">
+        03
+       </span>
+       <i aria-hidden="true" class="fa-solid fa-layer-group">
+       </i>
+      </span>
+      <span class="tile-label">
+       Clients &amp; services
+      </span>
+     </button>
+     <button aria-label="Skills" class="nav-btn" data-page="skills" type="button">
+      <span aria-hidden="true" class="tile-art tile-skills">
+       <span class="tile-index">
+        04
+       </span>
+       <i aria-hidden="true" class="fa-solid fa-terminal">
+       </i>
+      </span>
+      <span class="tile-label">
+       Skills
+      </span>
+     </button>
+     <button aria-label="MMA" class="nav-btn" data-page="mma" type="button">
+      <span aria-hidden="true" class="tile-art tile-mma">
+       <span class="tile-index">
+        05
+       </span>
+       <img alt="" height="768" src="images/mma-3.jpeg" width="960"/>
+      </span>
+      <span class="tile-label">
+       MMA
+      </span>
+     </button>
+     <button aria-label="Experience" class="nav-btn" data-page="experience" type="button">
+      <span aria-hidden="true" class="tile-art tile-experience">
+       <span class="tile-index">
+        06
+       </span>
+       <i aria-hidden="true" class="fa-solid fa-briefcase">
+       </i>
+      </span>
+      <span class="tile-label">
+       Experience
+      </span>
+     </button>
+     <button aria-label="Contact" class="nav-btn" data-page="contact" type="button">
+      <span aria-hidden="true" class="tile-art tile-contact">
+       <span class="tile-index">
+        07
+       </span>
+       <i aria-hidden="true" class="fa-regular fa-paper-plane">
+       </i>
+      </span>
+      <span class="tile-label">
+       Contact
+      </span>
+     </button>
+    </nav>
+   </div>
    <!-- =====================================================
          PAGE CONTAINER
     ====================================================== -->
@@ -188,50 +284,109 @@
              HOME
         ================================================== -->
     <section class="page active-page" id="home">
-     <div class="hero">
-      <span class="eyebrow">
-       WELCOME TO AN OS
-      </span>
+     <div class="hero dashboard-hero">
+      <div class="hero-kicker">
+       <span aria-hidden="true" class="status-dot">
+       </span>
+       <span>
+        FULL STACK DEVELOPER
+       </span>
+       <span class="hero-kicker-divider">
+       </span>
+       <span>
+        LONDON, UK
+       </span>
+      </div>
       <h1>
        Abdelmalek
        <span>
-        Naab
+        Naab.
        </span>
       </h1>
-      <p class="hero-description">
-       Full Stack Developer, Data Science student and competitive MMA fighter. I build modern websites and web applications for small businesses.
+      <p class="hero-role">
+       Developer. Builder. Fighter.
       </p>
-     </div>
-     <div class="home-divider">
-     </div>
-     <div class="selected-module">
-      <div class="module-number">
-       00
+      <p class="hero-description">
+       I build modern websites and web applications for small businesses. Explore my work, discover my story, or let’s build something together.
+      </p>
+      <div class="hero-actions">
+       <button class="primary-btn launch-btn" data-open-page="projects" type="button">
+        Explore my work
+        <i aria-hidden="true" class="fa-solid fa-arrow-right">
+        </i>
+       </button>
+       <button class="primary-btn secondary-btn" data-open-page="contact" type="button">
+        Let’s talk
+        <i aria-hidden="true" class="fa-regular fa-message">
+        </i>
+       </button>
       </div>
-      <div class="module-content">
-       <span class="eyebrow">
-        WELCOME TO AN OS
-       </span>
-       <h2>
-        Home
+     </div>
+     <section aria-labelledby="featured-title" class="featured-section">
+      <div class="featured-heading">
+       <h2 id="featured-title">
+        Featured work
        </h2>
-       <p>
-        Explore my development work, client projects,
-                        technical skills, services, combat sports
-                        background and professional experience.
-       </p>
-       <div class="module-actions">
-        <button class="primary-btn" data-open-page="projects" type="button">
-         Open Projects
-         <i class="fa-solid fa-arrow-right">
-         </i>
-        </button>
-        <button class="primary-btn" data-open-page="contact" type="button">
-         Discuss your website
-        </button>
-       </div>
+       <button class="all-projects-button" data-open-page="projects" type="button">
+        View library
+        <i aria-hidden="true" class="fa-solid fa-arrow-right">
+        </i>
+       </button>
       </div>
-     </div>
+      <div class="featured-grid">
+       <a aria-label="View Luxcape client website (opens in a new tab)" class="featured-game" href="https://luxcapeconcierge.com/" rel="noopener noreferrer" target="_blank">
+        <div class="game-cover">
+         <img alt="Luxcape chauffeur website" height="926" loading="lazy" src="images/previews/luxcape.jpg" width="1348"/>
+         <span aria-hidden="true" class="game-cover-arrow">
+          <i class="fa-solid fa-arrow-up-right-from-square">
+          </i>
+         </span>
+        </div>
+        <div class="game-caption">
+         <h3>
+          Luxcape
+         </h3>
+         <span>
+          CLIENT WEBSITE
+         </span>
+        </div>
+       </a>
+       <a aria-label="View 1WayFit community website (opens in a new tab)" class="featured-game" href="https://1wayfit.com/" rel="noopener noreferrer" target="_blank">
+        <div class="game-cover">
+         <img alt="1WayFit community martial arts website" height="926" loading="lazy" src="images/previews/1wayfit.jpg" width="1348"/>
+         <span aria-hidden="true" class="game-cover-arrow">
+          <i class="fa-solid fa-arrow-up-right-from-square">
+          </i>
+         </span>
+        </div>
+        <div class="game-caption">
+         <h3>
+          1WayFit
+         </h3>
+         <span>
+          COMMUNITY WEBSITE
+         </span>
+        </div>
+       </a>
+       <a aria-label="View Vanta Fight Store demonstration (opens in a new tab)" class="featured-game" href="https://maleknaab.github.io/vanta-fight-store/" rel="noopener noreferrer" target="_blank">
+        <div class="game-cover">
+         <img alt="Vanta combat sports ecommerce demonstration" height="926" loading="lazy" src="images/previews/vanta.jpg" width="1348"/>
+         <span aria-hidden="true" class="game-cover-arrow">
+          <i class="fa-solid fa-arrow-up-right-from-square">
+          </i>
+         </span>
+        </div>
+        <div class="game-caption">
+         <h3>
+          Vanta Fight Store
+         </h3>
+         <span>
+          ECOMMERCE DEMO
+         </span>
+        </div>
+       </a>
+      </div>
+     </section>
      <!-- =================================================
                  QUICK LINKS
             ================================================== -->
@@ -365,7 +520,7 @@
        Projects
       </h1>
       <p>
-       Business website demos first, followed by web applications, cybersecurity and games. Client commissions are shown in Services &amp; clients.
+       A collection of websites, applications and experiments. Explore a demo, view the code, or discover the client work in Clients &amp; services.
       </p>
      </div>
      <!-- FILTERS -->
@@ -2313,10 +2468,10 @@
                      MMA SLIDER
                 ================================================== -->
       <div class="mma-slider">
-       <img alt="MMA competition image 1" class="mma-slide active" src="images/mma-1.jpeg"/>
-       <img alt="MMA competition image 2" class="mma-slide" src="images/mma-2.jpeg"/>
-       <img alt="MMA competition image 3" class="mma-slide" src="images/mma-3.jpeg"/>
-       <img alt="MMA competition image 4" class="mma-slide" src="images/mma-4.jpeg"/>
+       <img alt="MMA competition image 1" class="mma-slide active" decoding="async" loading="lazy" src="images/mma-1.jpeg"/>
+       <img alt="MMA competition image 2" class="mma-slide" decoding="async" loading="lazy" src="images/mma-2.jpeg"/>
+       <img alt="MMA competition image 3" class="mma-slide" decoding="async" loading="lazy" src="images/mma-3.jpeg"/>
+       <img alt="MMA competition image 4" class="mma-slide" decoding="async" loading="lazy" src="images/mma-4.jpeg"/>
        <button aria-label="Previous MMA image" class="slider-btn slider-left" id="mma-prev" type="button">
         ‹
        </button>
@@ -2795,7 +2950,7 @@
    <footer class="bottom-controls">
     <div class="keyboard-hints">
      <span class="key">
-      ←→
+      ← →
      </span>
      <span>
       Navigate
@@ -2804,7 +2959,7 @@
       Enter
      </span>
      <span>
-      Select
+      Open
      </span>
      <span class="key">
       Esc
@@ -2813,17 +2968,32 @@
       Home
      </span>
     </div>
+    <span class="touch-hint">
+     Swipe tiles to explore
+    </span>
+    <div class="console-status">
+     <span id="section-counter">
+      01 / 07
+     </span>
+     <span class="console-status-divider">
+     </span>
+     <span id="section-label">
+      Home
+     </span>
+    </div>
     <button id="return-boot" type="button">
-     <i class="fa-solid fa-power-off">
+     <i aria-hidden="true" class="fa-solid fa-power-off">
      </i>
-     Return to Boot
+     <span>
+      Return to welcome
+     </span>
     </button>
    </footer>
   </div>
   <!-- =========================================================
      JAVASCRIPT
 ========================================================= -->
-  <script src="script.js?v=20261111-dashboard">
+  <script src="script.js?v=20261111-console">
   </script>
  </body>
 </html>
