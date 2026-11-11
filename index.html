@@ -7,8 +7,8 @@
    Abdelmalek Naab | Websites for Small Businesses
   </title>
   <!-- MAIN CSS -->
-  <link href="style.css?v=20261111" rel="stylesheet"/>
-  <link href="portfolio-improvements.css?v=20261111" rel="stylesheet"/>
+  <link href="style.css?v=20261111-dashboard" rel="stylesheet"/>
+  <link href="portfolio-improvements.css?v=20261111-dashboard" rel="stylesheet"/>
   <!-- FONT AWESOME -->
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet"/>
   <!-- DEVICON -->
@@ -95,9 +95,6 @@
   </script>
  </head>
  <body>
-  <a class="skip-link" href="#main-content">
-   Skip to content
-  </a>
   <!-- =========================================================
      BOOT SCREEN
 ========================================================= -->
@@ -114,7 +111,7 @@
      </span>
     </button>
     <p class="boot-message" id="boot-message">
-     Click or press any button to continue
+     Click, tap or press Enter to continue
     </p>
     <p class="boot-controls">
      Mouse • Keyboard • Touch
@@ -125,6 +122,9 @@
      MAIN OS
 ========================================================= -->
   <div class="main-os" id="main-os">
+   <a class="skip-link" href="#main-content">
+    Skip to content
+   </a>
    <div class="background-glow">
    </div>
    <div class="ambient-particles" id="ambient-particles">
@@ -143,7 +143,7 @@
        AN OS
       </h2>
       <span>
-       ABDELMALEK NAAB
+       PORTFOLIO SYSTEM
       </span>
      </div>
     </div>
@@ -156,7 +156,7 @@
       Projects
      </button>
      <button class="nav-btn" data-page="clients" type="button">
-      Services &amp; clients
+      Clients / Services
      </button>
      <button class="nav-btn" data-page="skills" type="button">
       Skills
@@ -167,8 +167,8 @@
      <button class="nav-btn" data-page="experience" type="button">
       Experience
      </button>
-     <button class="nav-btn nav-contact" data-page="contact" type="button">
-      Let’s talk
+     <button class="nav-btn" data-page="contact" type="button">
+      Contact
      </button>
     </nav>
     <!-- CLOCK -->
@@ -188,76 +188,48 @@
              HOME
         ================================================== -->
     <section class="page active-page" id="home">
-     <div class="home-intro">
-      <div class="hero">
-       <p class="eyebrow">
-        ABDELMALEK NAAB · FREELANCE WEB DEVELOPER
-       </p>
-       <h1>
-        Modern websites.
-        <span>
-         Built for your business.
-        </span>
-       </h1>
-       <p class="hero-description">
-        I build websites that make your services easy to understand and help customers contact you or book online.
-       </p>
-       <p class="hero-location">
-        <span aria-hidden="true" class="online-dot">
-        </span>
-        Based in London · Working remotely
-       </p>
-       <div class="hero-actions">
-        <button class="primary-btn solid-btn" data-open-page="contact" type="button">
-         Discuss your website
-         <i aria-hidden="true" class="fa-solid fa-arrow-right">
-         </i>
-        </button>
-        <button class="primary-btn" data-open-page="projects" type="button">
-         View my work
-        </button>
-       </div>
-       <p class="hero-note">
-        New websites · Redesigns &amp; fixes · Ongoing support
-       </p>
+     <div class="hero">
+      <span class="eyebrow">
+       WELCOME TO AN OS
+      </span>
+      <h1>
+       Abdelmalek
+       <span>
+        Naab
+       </span>
+      </h1>
+      <p class="hero-description">
+       Full Stack Developer, Data Science student and competitive MMA fighter. I build modern websites and web applications for small businesses.
+      </p>
+     </div>
+     <div class="home-divider">
+     </div>
+     <div class="selected-module">
+      <div class="module-number">
+       00
       </div>
-      <div class="hero-work">
-       <div class="work-caption">
-        <span>
-         SELECTED WORK
-        </span>
-        <span>
-         01 / 02
-        </span>
-       </div>
-       <a aria-label="View Luxcape client website (opens in a new tab)" class="hero-project-link" href="https://luxcapeconcierge.com/" rel="noopener noreferrer" target="_blank">
-        <img alt="Luxcape chauffeur website with its vehicle photography and reservation button" fetchpriority="high" height="936" src="images/previews/luxcape.jpg" width="1363"/>
-        <span class="hero-project-meta">
-         <span>
-          <small>
-           CLIENT WEBSITE
-          </small>
-          <strong>
-           Luxcape
-          </strong>
-         </span>
-         <i aria-hidden="true" class="fa-solid fa-arrow-up-right-from-square">
+      <div class="module-content">
+       <span class="eyebrow">
+        WELCOME TO AN OS
+       </span>
+       <h2>
+        Home
+       </h2>
+       <p>
+        Explore my development work, client projects,
+                        technical skills, services, combat sports
+                        background and professional experience.
+       </p>
+       <div class="module-actions">
+        <button class="primary-btn" data-open-page="projects" type="button">
+         Open Projects
+         <i class="fa-solid fa-arrow-right">
          </i>
-        </span>
-       </a>
-       <a class="hero-secondary-project" href="https://1wayfit.com/" rel="noopener noreferrer" target="_blank">
-        <span>
-         <small>
-          COMMUNITY WEBSITE
-         </small>
-         <strong>
-          1WayFit
-         </strong>
-        </span>
-        <span>
-         View project <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
-        </span>
-       </a>
+        </button>
+        <button class="primary-btn" data-open-page="contact" type="button">
+         Discuss your website
+        </button>
+       </div>
       </div>
      </div>
      <!-- =================================================
@@ -288,60 +260,6 @@
      <!-- =================================================
                  TESTIMONIALS
             ================================================== -->
-     <section aria-labelledby="home-work-title" class="home-work-section">
-      <div class="section-heading-row">
-       <div>
-        <span class="eyebrow">
-         A CLOSER LOOK
-        </span>
-        <h2 class="section-title" id="home-work-title">
-         See what I can build.
-        </h2>
-       </div>
-       <button class="text-button" data-open-page="projects" type="button">
-        All projects
-        <span aria-hidden="true">
-         <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
-        </span>
-       </button>
-      </div>
-      <div class="home-work-grid">
-       <a class="work-preview" href="https://maleknaab.github.io/barber-booking/" rel="noopener noreferrer" target="_blank">
-        <img alt="The Fade barber website showing its services and appointment button" height="936" loading="lazy" src="images/previews/barber.jpg" width="1363"/>
-        <div>
-         <span class="eyebrow">
-          DEMONSTRATION PROJECT
-         </span>
-         <h3>
-          The Fade · Barber website
-          <span aria-hidden="true">
-           <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
-          </span>
-         </h3>
-         <p>
-          Services, a gallery and an appointment booking interface.
-         </p>
-        </div>
-       </a>
-       <a class="work-preview" href="https://maleknaab.github.io/lumiere-restaurant/" rel="noopener noreferrer" target="_blank">
-        <img alt="Lumière restaurant website showing its dining room and reservation button" height="936" loading="lazy" src="images/previews/lumiere.jpg" width="1363"/>
-        <div>
-         <span class="eyebrow">
-          DEMONSTRATION PROJECT
-         </span>
-         <h3>
-          Lumière · Restaurant website
-          <span aria-hidden="true">
-           <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
-          </span>
-         </h3>
-         <p>
-          Menus, restaurant photography and a table reservation interface.
-         </p>
-        </div>
-       </a>
-      </div>
-     </section>
      <section class="home-section">
       <span class="eyebrow">
        CLIENT FEEDBACK
@@ -2876,17 +2794,36 @@
     ====================================================== -->
    <footer class="bottom-controls">
     <div class="keyboard-hints">
-     AN OS · Built by Abdelmalek Naab
+     <span class="key">
+      ←→
+     </span>
+     <span>
+      Navigate
+     </span>
+     <span class="key">
+      Enter
+     </span>
+     <span>
+      Select
+     </span>
+     <span class="key">
+      Esc
+     </span>
+     <span>
+      Home
+     </span>
     </div>
-    <button aria-label="Explore the optional AN OS intro" id="return-boot" type="button">
-     Explore AN OS intro
+    <button id="return-boot" type="button">
+     <i class="fa-solid fa-power-off">
+     </i>
+     Return to Boot
     </button>
    </footer>
   </div>
   <!-- =========================================================
      JAVASCRIPT
 ========================================================= -->
-  <script src="script.js?v=20261111">
+  <script src="script.js?v=20261111-dashboard">
   </script>
  </body>
 </html>

@@ -18,6 +18,14 @@ function openPage(pageID, { updateHistory = true, moveFocus = true } = {}) {
         if (active) button.setAttribute("aria-current", "page");
         else button.removeAttribute("aria-current");
     });
+    const activeNav = navButtons.find(button => button.dataset.page === pageID);
+    const navigation = activeNav?.parentElement;
+    if (navigation && navigation.scrollWidth > navigation.clientWidth) {
+        navigation.scrollTo({
+            left: activeNav.offsetLeft - navigation.offsetLeft - (navigation.clientWidth - activeNav.offsetWidth) / 2,
+            behavior: reducedMotion ? "instant" : "smooth"
+        });
+    }
     if (updateHistory && window.location.hash !== `#${pageID}`) {
         history.pushState(null, "", `#${pageID}`);
     }
@@ -44,7 +52,7 @@ window.addEventListener("popstate", restorePage);
 window.addEventListener("hashchange", restorePage);
 restorePage();
 
-// The AN OS intro is optional, so returning visitors can get straight to the work.
+// Restore the console welcome screen; direct section links still open their page.
 function enterPortfolio() {
     bootScreen.classList.add("hidden");
     mainOS.classList.remove("hidden");
@@ -55,13 +63,16 @@ document.getElementById("boot-logo").addEventListener("click", event => {
     enterPortfolio();
 });
 bootScreen.addEventListener("click", enterPortfolio);
-document.getElementById("return-boot").addEventListener("click", () => {
+function showBoot() {
     mainOS.classList.add("hidden");
     bootScreen.classList.remove("hidden");
     document.getElementById("boot-logo").focus();
     window.scrollTo({ top: 0, behavior: "instant" });
-});
+}
+document.getElementById("return-boot").addEventListener("click", showBoot);
+if (!pages.some(page => `#${page.id}` === window.location.hash)) showBoot();
 document.addEventListener("keydown", event => {
+    if (event.altKey || event.ctrlKey || event.metaKey) return;
     if (!bootScreen.classList.contains("hidden")) {
         if (["Enter", " ", "Escape"].includes(event.key)) {
             event.preventDefault();
@@ -69,14 +80,24 @@ document.addEventListener("keydown", event => {
         }
         return;
     }
-    // Arrow navigation belongs to the navigation bar, not forms or project controls.
-    const index = navButtons.indexOf(document.activeElement);
-    if (index !== -1 && ["ArrowRight", "ArrowLeft"].includes(event.key)) {
+    const focused = document.activeElement;
+    if (focused?.closest("input, textarea, select, [contenteditable='true']")) return;
+    if (event.key === "Escape") {
         event.preventDefault();
+        openPage("home");
+        return;
+    }
+    // Console shortcuts work from the page and navigation without stealing
+    // arrow keys from links, form controls, accordions or slideshow buttons.
+    const focusedIndex = navButtons.indexOf(focused);
+    const interactive = focused?.closest("a, button, summary, [role='slider']");
+    if ((focusedIndex !== -1 || !interactive) && ["ArrowRight", "ArrowLeft"].includes(event.key)) {
+        event.preventDefault();
+        const index = focusedIndex !== -1 ? focusedIndex : navButtons.findIndex(button => button.dataset.page === currentPage);
         const direction = event.key === "ArrowRight" ? 1 : -1;
         const next = navButtons[(index + direction + navButtons.length) % navButtons.length];
         openPage(next.dataset.page, { moveFocus: false });
-        next.focus();
+        next.focus({ preventScroll: true });
     }
 });
 
